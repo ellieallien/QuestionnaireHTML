@@ -9,6 +9,7 @@
 #' @param output.filename the name of the file. must end in '.html'
 #' @param title Name of your questionnaire as character.
 #' @param right.to.left Type of the questionnaire writing system (TRUE/FALSE).
+#' @param french_excel If TRUE will use read_csv2 and assume csv files are encoded in UTF-8
 #' @param special.characters If the text contains non latin characters, specify the language used.
 #' @examples
 #' questionnaire_to_html("./input/questionnaire_file.csv", "./input/choices_file.csv", "label::Arabic",
@@ -31,8 +32,17 @@ questionnaire_to_html <-function(survey.file, choices.file, choices.label, surve
 
    Sys.setlocale("LC_ALL",special.characters)
 
-    survey <- read.csv(survey.file)
-    choices <- read.csv(choices.file)
+   if(french_excel = TRUE){
+     survey <- read.csv2(survey.file, stringsAsFactors = F, encoding = "UTF-8")
+     choices <- read.csv2(choices.file, stringsAsFactors = F, encoding = "UTF-8")
+
+     names(questions)[1] <- "type"
+     names(choices)[1] <- "list_name"
+   }else{
+     survey <- read.csv(survey.file)
+     choices <- read.csv(choices.file)
+
+   }
 
     names(survey) <- sanitise_survey_label(survey.label,names(survey))
     if(constraint.label!="") {
