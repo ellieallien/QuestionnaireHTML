@@ -32,7 +32,7 @@ questionnaire_to_html <-function(survey.file, choices.file, choices.label, surve
 
    Sys.setlocale("LC_ALL",special.characters)
 
-   if(french_excel = TRUE){
+   if(french_excel == TRUE){
      survey <- read.csv2(survey.file, stringsAsFactors = F, encoding = "UTF-8")
      choices <- read.csv2(choices.file, stringsAsFactors = F, encoding = "UTF-8")
 
